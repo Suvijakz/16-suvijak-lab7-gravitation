@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,28 @@ public class Attractor : MonoBehaviour
 {
     [SerializeField] Rigidbody rb; 
     float G = 6.674f;
+
+    public static List<Attractor> Attractors;
+
+    void FixedUpdate()
+    {
+        foreach (var att in Attractors)
+        {
+            if (att != this)
+            {
+                Attract(att);
+            }
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (Attractors == null)
+        {
+            Attractors = new List<Attractor>();
+        }
+        Attractors.Add(this);
+    }
 
     void Attract(Attractor other)
     {
